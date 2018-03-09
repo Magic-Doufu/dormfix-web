@@ -10,7 +10,7 @@ class Member extends CI_model {
         }
         $acco = html_escape(remove_invisible_characters($data['account']));
         $this->db->where('name', $acco);
-        $this->db->where('password', $this->_saltpwd($data['passwd']));
+        //$this->db->where('password', $this->_saltpwd($data['passwd']));
         $master = $this->db->get('master')->row_array();
         if (!empty($master)) {
             $time_update = array(

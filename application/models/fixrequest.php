@@ -24,8 +24,9 @@ class Fixrequest extends CI_Model {
         $this->db->insert('fix_detail', $request_data); 
         return TRUE;
     }
-    function get_list($page) {
+    function get_list($page, $type = '1') {
         $this->db->order_by('uid', "desc");
+        $this->db->where('status != ', $type);
         return $this->db->get('fix_detail', $this->config->item('per_page'), (intval($page) - 1) * $this->config->item('per_page'))->result_array();
     }
     function get_page_link($page) {

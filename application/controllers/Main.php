@@ -39,16 +39,19 @@ class Main extends CI_Controller {
 		}
     }
 
-    public function request_list($pages = '1') {
+    public function request_list($pages = '1', $type = '0') {
         $this->load->model('fixrequest');
         $this->load->model('member');
         //$this->load->library('pagination');
         //show requests list
         $data = array(  'page' => 'list',
                         'data' => array('columns' => $this->config->item($this->member->check_login() ? 'list_col_login' : 'list_col'),
-                                    'lists' => $this->fixrequest->get_list($pages),
-                                    'pagination' => $this->fixrequest->get_page_link($pages)
+                        'lists' => $this->fixrequest->get_list($pages),
+                        'pagination' => $this->fixrequest->get_page_link($pages)
                     ));
+        if($this->member->check_login()) {
+            $data['components'] = array('detail_update');
+        }
         $this->index($data);
     }
 
@@ -61,9 +64,7 @@ class Main extends CI_Controller {
                         'data' => $this->fixrequest->detail($uid),
                         'components' => array('button_back')
                     );
-        if($this->member->check_login()) {
-            array_unshift($data['components'], 'detail_update');
-        } else {
+        if(!$this->member->check_login()) {
             $data['data']['situation'] = "Not Allow";
         }
         empty($data['data']) ? show_404() : $this->index($data);

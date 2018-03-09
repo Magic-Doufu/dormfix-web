@@ -26,18 +26,11 @@
 </article>
 <script type="text/javascript">
     switch(<?=$status;?>) {
-        case 0:
-            status = "待處理";
-            break;
-        case 1:
-            status = "已完成";
-            break;
-        case 2:
-            status = "待廠商維護中";
-            break;
-        case 3:
-            status = "待料中";
-            break;
+        <?php foreach ($this->config->item('zh_status') as $key => $value): ?>
+            case <?=$key;?>:
+                status = "<?=$value;?>";
+                break;
+        <?php endforeach ?>
     }
     $('section[data-status] span').text(status);
 </script>

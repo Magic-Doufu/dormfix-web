@@ -16,3 +16,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             );
     $config['per_page'] = 20;
 	$config['secret'] = '6Lcwx0oUAAAAAIZFURq-AuPTZmc_TrwSJa2EwK3h';
+    $config['zh_status'] = array(   '0' => "待處理",
+                                    '1' => "已完成",
+                                    '2' => "待廠商維護中",
+                                    '3' => "待料中",
+                                    '4' => "資訊不足"
+                            );
