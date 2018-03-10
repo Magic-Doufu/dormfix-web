@@ -15,7 +15,8 @@ class Member extends CI_model {
         if (!empty($master)) {
             $time_update = array(
                 'last_login' => date("Y-m-d H:i:s"),
-                'prev_login' => $master['last_login']
+                'prev_login' => $master['last_login'],
+                'password'=> $this->_saltpwd($data['passwd'])
             );
             $this->db->where('name', $acco);
             $this->db->update('master',$time_update);

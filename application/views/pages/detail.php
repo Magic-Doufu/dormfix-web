@@ -1,5 +1,5 @@
 <article class="pd-h-3 text-wrap row bkg-green col-md-8 col-md-offset-2">
-    <header>
+    <header id="detail" uid="<?=$uid;?>">
         <h2>報修單詳情</h2>
     </header>
     <section class="mg-v-2">

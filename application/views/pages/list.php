@@ -1,14 +1,10 @@
 <div class="row bkg-green pd-t-1 col-md-8 col-md-offset-2 text-center">
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-success active">
-        <input type="radio" name="status" id="option2" autocomplete="off" checked> 未修好
-      </label>
-      <label class="btn btn-success">
-        <input type="radio" name="status" id="option1" autocomplete="off"> 已修好
-      </label>
-      <label class="btn btn-success">
-        <input type="radio" name="status" id="option3" autocomplete="off"> 資訊不足
-      </label>
+        <?php foreach ($this->config->item('zh_status') as $key => $value): ?>
+            <label class="btn btn-success s_type" type="<?=$key;?>">
+                <input type="radio" autocomplete="off"><?=$value;?>
+            </label>
+        <?php endforeach ?>
     </div>
 </div>
 <article class="row pd-0 bkg-white col-md-8 col-md-offset-2">
@@ -35,6 +31,9 @@
     <?=$pagination;?>
     <script type="text/javascript">
         url = "<?=base_url('index.php/request_detail/');?>";
+        $('.s_type').click(function(){
+            $.get("<?=base_url('index.php/pagetype');?>", { pagetype: $(this).attr('type') },function(){location.reload()} );
+        }).eq(<?=$type;?>).addClass('active');
         $('tr[data-status]').each(function(){
             var status_arr = ['bg-danger', 'bg-success', 'bg-primary', 'bg-warning'];
             var x = parseInt($(this).attr('data-status'));
@@ -43,5 +42,19 @@
             })
         })
         $('th, td').addClass('text-center');
+        $('tr').each(function(){
+            var tsrow = $(this).children('td').last();
+            tsrow.text(zh_status(tsrow.text()))
+        })
+        function zh_status(sw) {
+            console.log(sw);
+            switch(sw) {
+            <?php foreach ($this->config->item('zh_status') as $key => $value): ?>
+                case '<?=$key;?>':
+                    return "<?=$value;?>";
+                    break;
+            <?php endforeach ?>
+            }
+        }
     </script>
 </article>

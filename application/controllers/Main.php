@@ -42,12 +42,16 @@ class Main extends CI_Controller {
     public function request_list($pages = '1', $type = '0') {
         $this->load->model('fixrequest');
         $this->load->model('member');
+        if (!$this->session->has_userdata('list')) {
+            $this->session->set_userdata('list', '0');
+        }
         //$this->load->library('pagination');
         //show requests list
         $data = array(  'page' => 'list',
                         'data' => array('columns' => $this->config->item($this->member->check_login() ? 'list_col_login' : 'list_col'),
-                        'lists' => $this->fixrequest->get_list($pages),
-                        'pagination' => $this->fixrequest->get_page_link($pages)
+                        'lists' => $this->fixrequest->get_list($pages, $this->session->list),
+                        'pagination' => $this->fixrequest->get_page_link($pages),
+                        'type' => $this->session->list
                     ));
         if($this->member->check_login()) {
             $data['components'] = array('detail_update');
@@ -64,9 +68,6 @@ class Main extends CI_Controller {
                         'data' => $this->fixrequest->detail($uid),
                         'components' => array('button_back')
                     );
-        if(!$this->member->check_login()) {
-            $data['data']['situation'] = "Not Allow";
-        }
         empty($data['data']) ? show_404() : $this->index($data);
     }
     public function detail_update() {
@@ -95,11 +96,11 @@ class Main extends CI_Controller {
         switch ($fcs) {
             case 'login':
 				if($this->validate_captcha($this->input->post('g-recaptcha-response'))) {
-                if($this->member->login($this->input->post(NULL, TRUE))){
-                    header("Location:" . base_url('index.php/manage'));
-                } else {
-                    array_push($data, $data['components'] = array('pass_error'));
-                }
+                    if($this->member->login($this->input->post(NULL, TRUE))){
+                        header("Location:" . base_url('index.php/manage'));
+                    } else {
+                        array_push($data, $data['components'] = array('pass_error'));
+                    }
 				} else {
 					array_push($data, $data['components'] = array('no_recaptcha'));
 				}
@@ -122,5 +123,14 @@ class Main extends CI_Controller {
         $response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . $this->config->item('secret') . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']));
 		var_dump($response);
 		return ($response->success) ? TRUE : FALSE;
+    }
+    public function pagetype() {
+        if ($this->session->has_userdata('list')) {
+            $this->session->set_userdata('list', $this->input->get('pagetype', TRUE));
+        }
+    }
+    public function getsituation() {
+        $this->load->model('fixrequest');
+        echo $this->fixrequest->get_situation($this->input->get(array('uid','secret'), TRUE));
     }
 }

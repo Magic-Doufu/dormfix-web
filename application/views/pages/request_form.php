@@ -55,9 +55,13 @@
         <input type="text" name="sender[]" class="form-control" placeholder="房床號 ex.1105-3">
         <input type="text" name="sender[]" class="form-control" placeholder="姓名">
     </div>
+    <div class="form-group">
+        <label>查詢密碼(如需隱藏資料需輸入)</label>
+        <input type="text" name="secret" class="form-control" placeholder="檢視用密碼 ex.1234">
+    </div>
 	<script type="text/javascript" src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div class="form-group">
-		<div class="g-recaptcha" data-sitekey="6Lcwx0oUAAAAAI4My9l3DVwQWulQtvpdQ1uKF5R8"></div>
+		<div class="g-recaptcha" data-sitekey="<?=$this->config->item('sitekey');?>"></div>
     </div>
     <div class="form-group" style="text-align: right;">
         <button type="submit" onclick="return check_empty($(this));" class="btn btn-default">送出</button>
@@ -89,7 +93,6 @@
 			button.removeClass('disabled');
             setTimeout(function(){$('div[space]').addClass('hidden')}, 3000);   
         }
-		console.log($(this));
         return x;
     }
     $(document).ready(function(){
