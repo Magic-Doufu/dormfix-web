@@ -16,8 +16,8 @@ class Fixrequest extends CI_Model {
 		unset($request_data['g-recaptcha-response']);
         $request_data = array_merge($defaults, $request_data);
         foreach ($request_data as $key => $value) {
-            if (empty($value)) {
-                $value = html_escape(remove_invisible_characters($value));
+            $value = html_escape(remove_invisible_characters($value));
+            if (empty($value) && ($key != 'secret')) {
                 return FALSE;
             }
         }

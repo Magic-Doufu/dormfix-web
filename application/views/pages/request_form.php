@@ -48,12 +48,12 @@
     </div>
     <div class="form-group">
         <label>故障點/原因</label>
-        <textarea class="form-control" name="situation" rows="4" placeholder="如果選擇其它則必填原因"></textarea>
+        <textarea class="form-control needed" name="situation" rows="4" placeholder="如果選擇其它則必填原因"></textarea>
     </div>
     <div class="form-group">
         <label>報修人</label>
-        <input type="text" name="sender[]" class="form-control" placeholder="房床號 ex.1105-3">
-        <input type="text" name="sender[]" class="form-control" placeholder="姓名">
+        <input type="text" name="sender[]" class="form-control needed" placeholder="房床號 ex.1105-3">
+        <input type="text" name="sender[]" class="form-control needed" placeholder="姓名">
     </div>
     <div class="form-group">
         <label>查詢密碼(如需隱藏資料需輸入)</label>
@@ -78,7 +78,7 @@
         var x = true;
         var roomnum = new RegExp(/[0-9]{4}-[1-4]/);
         var teacher = new RegExp(/[0-9]{5}/);
-        $('form .form-control').each(function(){
+        $('form .form-control .needed').each(function(){
             if ($(this).val().length < 1) {
                 $('div[space]').removeClass('hidden');
                 x = false;

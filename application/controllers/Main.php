@@ -121,7 +121,6 @@ class Main extends CI_Controller {
     }
 	private function validate_captcha($captcha) {
         $response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . $this->config->item('secret') . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']));
-		var_dump($response);
 		return ($response->success) ? TRUE : FALSE;
     }
     public function pagetype() {
